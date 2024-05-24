@@ -19,7 +19,7 @@ export const authConfig = {
     ],
     adapter: PrismaAdapter(prisma),
     callbacks: {
-        async session({ session, user }) {
+        async session({ session, user }: { session: any, user: any }) {
             const [spotifyAccount] = await prisma.account.findMany({
                 where: { userId: user.id, provider: "spotify" },
             })
