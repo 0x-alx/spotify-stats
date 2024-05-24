@@ -13,7 +13,7 @@ export default async function Home() {
 	const getUserInfos = async () => {
 		if (session && session.user) {
 			const findUserInfo = await prisma.user.findUnique({
-				where: { email: session.user.email! },
+				where: { email: session.user.email },
 			});
 			return findUserInfo;
 		}

@@ -26,14 +26,14 @@ export const authConfig = {
             console.log(spotifyAccount)
             console.log(spotifyAccount.expires_at! * 1000)
             console.log(Date.now())
-            if (spotifyAccount.expires_at! * 1000 < Date.now()) {
+            if (spotifyAccount.expires_at !== null && spotifyAccount.expires_at * 1000 < Date.now()) {
                 // If the access token has expired, try to refresh it
                 try {
                     const params = {
-                        client_id: process.env.SPOTIFY_CLIENT_ID!,
-                        client_secret: process.env.SPOTIFY_CLIENT_SECRET!,
+                        client_id: process.env.SPOTIFY_CLIENT_ID,
+                        client_secret: process.env.SPOTIFY_CLIENT_SECRET,
                         grant_type: "refresh_token",
-                        refresh_token: spotifyAccount.refresh_token!,
+                        refresh_token: spotifyAccount.refresh_token,
                     };
 
                     const response = await axios.post("https://accounts.spotify.com/api/token", params, {
