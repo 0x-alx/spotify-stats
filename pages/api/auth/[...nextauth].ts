@@ -18,6 +18,7 @@ export const authConfig = {
 
     ],
     adapter: PrismaAdapter(prisma),
+    secret: process.env.NEXTAUTH_SECRET,
     callbacks: {
         async session({ session, user }: { session: any, user: any }) {
             const [spotifyAccount] = await prisma.account.findMany({
@@ -68,6 +69,7 @@ export const authConfig = {
             return session
         },
     },
+
 }
 
 export default NextAuth(authConfig)
