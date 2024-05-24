@@ -24,9 +24,7 @@ export const authConfig = {
             const [spotifyAccount] = await prisma.account.findMany({
                 where: { userId: user.id, provider: "spotify" },
             })
-            console.log(spotifyAccount)
-            console.log(spotifyAccount.expires_at! * 1000)
-            console.log(Date.now())
+
             if (spotifyAccount.expires_at !== null && spotifyAccount.expires_at * 1000 < Date.now()) {
                 // If the access token has expired, try to refresh it
                 try {

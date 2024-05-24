@@ -3,6 +3,11 @@ import { authConfig } from "../pages/api/auth/[...nextauth]";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { PrismaClient } from "@prisma/client";
+import {
+	getSpotifyProfile,
+	getSpotifyTopArtists,
+	getSpotifyTopTracks,
+} from "@/hooks/spotifyHooks";
 
 export default async function Home() {
 	const session = await getServerSession(authConfig);
@@ -25,32 +30,61 @@ export default async function Home() {
 		where: { userId: userInfos?.id },
 	});
 
-	const fetchSpotifyProfile = async () => {
-		if (session && session.user) {
-			try {
-				const response = await axios.get(
-					"https://api.spotify.com/v1/me",
-					{
-						headers: {
-							Authorization: `Bearer ${userAccount?.access_token}`,
-						},
-					}
-				);
-				console.log(response.data);
-			} catch (error) {
-				console.error(
-					"Erreur lors de la récupération du profil Spotify",
-					error
-				);
-			}
-		}
-	};
+	const data = await getSpotifyProfile({
+		accessToken: userAccount?.access_token!,
+	});
 
-	await fetchSpotifyProfile();
+	const topTracks = await getSpotifyTopTracks({
+		accessToken: userAccount?.access_token!,
+		timeRange: "short_term",
+	});
 
+	const topArtists = await getSpotifyTopArtists({
+		accessToken: userAccount?.access_token!,
+		timeRange: "short_term",
+	});
+
+	console.log(data);
+	console.log(topTracks.items);
 	return (
 		<main className='flex min-h-screen flex-col items-center justify-between p-24'>
-			<div className='z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex'></div>
+			<div className='z-10 flex w-full max-w-5xl flex-col  items-center justify-between gap-8 font-mono text-sm lg:flex'>
+				<h1>ONE MONTH RECORD</h1>
+				<div className='flex flex-wrap gap-10'>
+					<div>
+						<h1 className='font-bold'>TOP TRACKS</h1>
+						<ul>
+							{topTracks.items
+								.sort(
+									(a: any, b: any) =>
+										b.popularity - a.popularity
+								)
+								.map((track: any) => (
+									<li key={track.id}>
+										{track.name} / Popularity:{" "}
+										{track.popularity}
+									</li>
+								))}
+						</ul>
+					</div>
+					<div>
+						<h1 className='font-bold'>TOP ARTISTS</h1>
+						<ul>
+							{topArtists.items
+								.sort(
+									(a: any, b: any) =>
+										b.popularity - a.popularity
+								)
+								.map((track: any) => (
+									<li key={track.id}>
+										{track.name} / Popularity:{" "}
+										{track.popularity}
+									</li>
+								))}
+						</ul>
+					</div>
+				</div>
+			</div>
 		</main>
 	);
 }
