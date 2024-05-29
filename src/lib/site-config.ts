@@ -1,4 +1,4 @@
 export const SiteConfig = {
-    title: 'Statify',
+    title: 'SpotifAI',
     description: 'You JUST need to CODE.',
 } as const;
