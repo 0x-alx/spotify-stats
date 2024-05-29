@@ -119,7 +119,7 @@ export const addTrackToPlaylist = async ({
 }: {
 	accessToken: string;
 	playlistId: string;
-	trackId: string;
+	trackId: string[];
 }) => {
 	const response = await axios.post(
 		`${SPOTIFY_API_URL}/playlists/${playlistId}/tracks`,
