@@ -50,3 +50,87 @@ export const getSpotifyTopArtists = async ({
 	});
 	return response.data;
 };
+
+export const searchSpotifyTrack = async ({
+	accessToken,
+	query,
+}: {
+	accessToken: string;
+	query: string;
+}) => {
+	const response = await axios.get(`${SPOTIFY_API_URL}/search`, {
+		params: {
+			q: `track:${query}`,
+			type: "track",
+			limit: 1,
+		},
+		headers: {
+			Authorization: `Bearer ${accessToken}`,
+		},
+	});
+	return response.data;
+};
+
+export const getTracks = async ({
+	accessToken,
+	trackIds,
+}: {
+	accessToken: string;
+	trackIds: string[];
+}) => {
+	const response = await axios.get(`${SPOTIFY_API_URL}/tracks`, {
+		params: {
+			ids: trackIds.join(","),
+		},
+		headers: {
+			Authorization: `Bearer ${accessToken}`,
+		},
+	});
+	return response.data;
+};
+
+export const createPlaylist = async ({
+	accessToken,
+	name,
+	userId,
+}: {
+	accessToken: string;
+	name: string;
+	userId: string;
+}) => {
+	const response = await axios.post(
+		`${SPOTIFY_API_URL}/users/${userId}/playlists`,
+		{
+			name: name,
+		},
+		{
+			headers: {
+				Authorization: `Bearer ${accessToken}`,
+			},
+		}
+	);
+	return response.data;
+};
+
+export const addTrackToPlaylist = async ({
+	accessToken,
+	playlistId,
+	trackId,
+}: {
+	accessToken: string;
+	playlistId: string;
+	trackId: string;
+}) => {
+	const response = await axios.post(
+		`${SPOTIFY_API_URL}/playlists/${playlistId}/tracks`,
+		{
+			uris: trackId,
+		},
+		{
+			headers: {
+				Authorization: `Bearer ${accessToken}`,
+			},
+		}
+	);
+	return response.data;
+};
