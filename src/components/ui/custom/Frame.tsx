@@ -21,7 +21,7 @@ import {
 	TableHeader,
 	TableRow,
 } from "../table";
-import data from "../../../data/tracks.json";
+// import data from "../../../data/tracks.json";
 
 const Frame = ({ userAccount }: { userAccount: any }) => {
 	const openai = new OpenAI({
