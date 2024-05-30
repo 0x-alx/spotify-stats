@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { Input } from "../input";
-import Image from "next/image";
 import { Button } from "../button";
 import { Toaster } from "@/components/ui/sonner";
 import { toast } from "sonner";
@@ -15,16 +14,8 @@ import {
 	getTracks,
 	searchSpotifyTrack,
 } from "@/hooks/spotifyHooks";
-import {
-	Table,
-	TableBody,
-	TableCaption,
-	TableCell,
-	TableHead,
-	TableHeader,
-	TableRow,
-} from "../table";
-import data from "../../../data/tracks.json";
+
+// import data from "../../../data/tracks.json";
 import TrackArray from "./TrackArray";
 
 const Frame = ({ userAccount }: { userAccount: any }) => {
